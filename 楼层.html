@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>楼层</title>
+	<script src="./js/animate.js"> </script>
+	
+	<script>
+
+	window.onload=function(){
+		//可视范围+滚轮滚动高度>=offsetTop
+		var cH=document.documentElement.clientHeight;
+		var floors=document.getElementsByClassName("floor");
+		var floorArr=[];
+
+		for(var i=0;i<floors.length;i++){
+			floorArr.push(floors[i].offsetTop);/*把楼层的高度压入数组*/
+		}
+		//楼层跳转
+		var jump=document.getElementsByClassName("jump")[0];
+		var lis=document.getElementsByTagName("li");
+		var jH=jump.offsetHeight;
+		jump.style.top=(cH-jH)/2+"px";
+
+		// 控制楼层跳转的开关window.onscroll
+		var flag=true;
+		for(var i=0;i<lis.length;i++){
+           lis[i].index=i
+           lis[i].onclick=function(){
+           	flag=false;
+           var obj=document.body.scrollTop?document.body:document.documentElement;
+           animate(obj,{scrollTop:floors[this.index].offsetTop},function(){
+           	flag=true
+           });
+           for(var j=0;j<lis.length;j++){
+           	lis[j].style.background="#f4f4f4";
+           }
+           lis[this.index].style.background="red"
+           }
+	    }
+
+	   /* 返回顶部*/
+	   var back=document.getElementsByClassName("back")[0];
+	   back.onclick=function(){
+	   	var obj=document.body.scrollTop?document.body:document.documentElement;
+	   	animate(obj,{scrollTop:0});
+	   }
+	   var search=document.getElementsByClassName("search")[0];
+
+		//按需加载
+		//可视范围+滚轮滚动高度>=floor[i].offsetTop
+		window.onscroll=function(){   /*当滑动时的事件*/
+			if(!flag)
+				return;
+			
+			var obj=document.body.scrollTop?document.body:document.documentElement;/*谷歌和火狐的兼容性*/
+			var tops=obj.scrollTop;
+			for(var i=0;i<floors.length;i++){
+				if(tops+cH>=floorArr[i]+300){  /*floors[i].offsetTop+100?*/
+					var imgs=document.getElementsByTagName("img",floors[i]);
+					for(var j=0;j<imgs.length;j++){
+						imgs[j].src=imgs[j].title;  /*路径*/
+					}
+				}
+			}
+			//jump色块
+			for(var i=0;i<floors.length;i++){
+				if(tops+cH>=floors[i].offsetTop){
+					
+					for(var j=0;j<lis.length;j++){
+           	        lis[j].style.background="#f4f4f4";
+                    }
+                    lis[i].style.background="red";
+
+				}
+	}
+	// 返回顶部   back
+	    var flag1=true;
+	    if(tops>=600){
+	    	if(flag1){
+	    		flag1=false;
+	       animate(search,{top:0});
+		   animate(back,{opacity:1});
+		}
+	   }else{
+	   	if(!flag1){
+	   		flag1=true;
+	   	  animate(search,{top:-40});
+		   animate(back,{opacity:0});
+	
+	    	}
+	}
+  }
+}
+
+	</script>
+	<style>
+  .head{
+  	width: 750px;
+  	height: 190px;
+  	background: #ccc;
+  	margin: 0 auto;
+  }
+  .footer {
+  	width: 750px;
+  	height: 190px;
+  	background: #ccc;
+  	margin: 0 auto;
+  }
+  .floor1{
+  	width:750px;
+  	height: 350px;
+  	background: #fefefe;
+  	margin: 10px auto;
+  	text-align: center;
+  
+  }
+  .floor2{
+  	width:750px;
+  	height: 350px;
+  	background: #fefefe;
+  	margin: 10px auto;
+  	text-align: center;
+  	
+  }
+  .floor3{
+  	width:750px;
+  	height: 350px;
+  	background: #fefefe;
+  	margin: 10px auto;
+  	text-align: center;
+  	
+  }
+  .floor4{
+  	width:750px;
+  	height: 350px;
+  	background: #fefefe;
+  	margin: 10px auto;
+  	text-align: center;
+  	
+  }
+  .floor5{
+  	width:750px;
+  	height: 350px;
+  	background: #fefefe;
+  	margin: 10px auto;
+  	text-align: center;
+  	
+  }
+  .jump{
+  	width:30px;
+  	height: 150px;
+  	left:60px;
+  	top:20px;
+  	position: fixed;
+  	background: #f4f4f4;
+  	padding:0;
+  	margin:0;
+  	list-style: none;
+  }
+  .jump li{
+  	width:30px;
+  	height: 29px;
+  	border-bottom: 1px dashed #ccc;
+  	list-style: none;
+  	margin:0;
+  	padding:0;
+  	text-align:center;
+
+  }
+  .back{
+  	width:30px;
+  	height:30px;
+  	position: fixed;
+  	right:30px;
+  	bottom:30px;
+  	background: #f4f4f4;
+  	border-radius: 4px;
+
+  }
+  .search{
+  	width:100%;
+  	height: 40px;
+  	background-color: red;
+  	position: fixed;
+  	left:0;
+  	top:-40px;
+  }
+	</style>
+</head>
+<body>
+<div class="search">
+	
+</div>
+<div class="head">
+		head
+	</div>
+	<div class="floor floor1">
+		<img src="" alt="" title="./image/banner1.jpg">
+	</div>
+	<div class="floor floor2">
+		<img src="" alt="" title="./image/banner2.jpg">
+	</div>
+	<div class="floor floor3">
+		<img src="" alt="" title="./image/banner3.jpg">
+	</div>
+	<div class="floor floor4">
+		<img src="" alt="" title="./image/banner4.jpg">
+	</div>
+	<div class="floor floor5">
+		<img src="" alt="" title="./image/banner5.jpg">
+	</div>
+
+	<div class="footer">
+		flooer
+	</div>
+	<ul class="jump">
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+		<li>5</li>
+	</ul>
+	<div class="back"></div>
+</body>
+</html>

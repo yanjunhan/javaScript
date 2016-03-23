@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无缝轮播</title>
+	<script src="./js/animate.js"> </script>
+<script>
+	window.onload=function(){
+	var win=document.getElementsByClassName("window")[0];
+	var imgs=document.getElementsByTagName("a");
+	var lis=document.getElementsByTagName("li",win);
+	var num=0;
+	var btnL=document.getElementsByClassName("btnL")[0];
+	var btnR=document.getElementsByClassName("btnR")[0];
+	var imgW=parseInt(getStyle(imgs[0],"width"));
+	var index=0;
+	var flag=true;
+
+	var t;
+  for(var i=0;i<imgs.length;i++){
+	if(i==0){
+	continue;
+	}
+	imgs[i].style.left=imgW+"px";
+}
+ lis[0].style.background="red";
+ t=setInterval(moreR,1000);
+    win.onmouseover=function(){
+	clearInterval(t);
+}
+  win.onmouseout=function(){
+	 clearInterval(t);
+	t=setInterval(moreR,1000);
+}
+
+  for(var i=0;i<lis.length;i++){
+	lis[i].index=i;
+	lis[i].onclick=function(){
+	 if(index==this.index){
+	  return;                                 
+	 }
+	  for(var i=0;i<imgs.length;i++){
+	  lis[i].style.background="#fff";
+
+	}
+	  lis[this.index].style.background="red";
+	  imgs[this.index].style.left=imgW+"px";
+	  animate(imgs[index],{left:-imgW},600 );
+	  animate(imgs[this.index],{left:0},600);
+      index=num=this.index;
+	}
+}
+
+  btnR.onclick=function(){
+  	moreR();
+  }
+  btnL.onclick=function(){
+    moreL();
+  }
+
+function moreR(){
+	if(!flag){   
+		return;
+	}
+	flag=false;
+	num++;
+	if(num==imgs.length){
+	num=0;
+	}
+	imgs[num].style.left=imgW+"px";
+	animate(imgs[index],{left:-imgW},600,function(){
+		flag=true;
+	});
+	animate(imgs[num],{left:0},600,function(){
+		flag=true;
+	});
+	for(var i=0;i<imgs.length;i++){
+	lis[i].style.background="#fff";
+	}
+	lis[num].style.background="red";
+	index=num;
+ }
+function moreL(){
+	if(!flag){
+		return;
+	}
+	flag=false;
+	num--;
+	if(num<0){
+	num=imgs.length-1;
+	}
+	imgs[num].style.left=-imgW+"px";
+	animate(imgs[index],{left:imgW},600,function(){
+		flag=true;
+	});
+	animate(imgs[num],{left:0},600,function(){
+		flag=true;
+	});
+	for(var i=0;i<imgs.length;i++){
+	lis[i].style.background="#fff";
+	}
+	lis[num].style.background="red";
+	index=num;
+ }
+ function getStyle(obj,a){
+	if(obj.currentStyle){
+                   return obj.currentStyle[a];
+	}else{
+		return getComputedStyle(obj,null)[a];
+	}
+}
+}
+</script>		
+<style>
+.window{
+    width: 740px;
+    height: 350px;
+    margin: 50px auto;
+    position: relative;
+    overflow: hidden;
+}
+.window a{
+    display: block;
+    font-size: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+img{
+    border: none;
+}
+ul{
+    width: 170px;
+    height: 10px;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    margin-left: -85px;
+    list-style: none;
+    z-index: 9999;
+}
+li{
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 50%;
+    list-style: none;
+    float: left;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+
+.btnL{
+    width:40px;
+    background: url(./image/123.png);
+    cursor:pointer;
+    height:70px;
+    position:absolute;
+    left:0;
+    top:140px;
+    opacity: 0.5;
+    
+}
+.btnR{
+    width:40px;
+    background: url(./image/123.png)no-repeat right 0;
+    cursor:pointer;
+    height:70px;
+    position:absolute;
+    right:0;
+    top:140px;
+    opacity: 0.5;
+    
+}
+</style>
+
+</head>
+<body>
+<div class="window">
+    <a href="#">
+        <img src="./image/banner1.jpg" alt="" />
+    </a>
+    <a href="#">
+        <img src="./image/banner2.jpg" alt="" />
+    </a>
+    <a href="#">
+        <img src="./image/banner3.jpg" alt=""/>
+    </a>
+    <a href="#">
+        <img src="./image/banner4.jpg" alt=""/>
+    </a>
+    <a href="#">
+        <img src="./image/banner5.jpg" alt=""/>
+    </a>
+     <a href="#">
+        <img src="./image/banner6.jpg" alt=""/>
+    </a>
+     <a href="#">
+        <img src="./image/banner7.jpg" alt=""/>
+    </a>
+     <a href="#">
+        <img src="./image/banner8.jpg" alt=""/>
+    </a>
+    
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    
+    </ul>
+    <div class="box">
+        <div class="btnR"></div>
+        <div class="btnL"></div>
+    </div>
+
+</div>
+
+
+	
+</body>
+</html>
